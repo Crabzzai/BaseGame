@@ -1,10 +1,12 @@
-import { IProductChildList } from "server/components/types/product/IProductChildList";
-import { IProductChildObject } from "server/components/types/product/IProductChildObject";
-import { _Player } from "../Player";
+
+import { IProductChildList } from "ServerStorage/types/store/product/IProductChildList";
+import { IProductChildObject } from "ServerStorage/types/store/product/IProductChildObject";
+import { _Player } from "../../Player";
 import { ProductChild } from "./ProductChild";
 
 const ParentFolder = script.Parent as Folder;
-const Classes = ParentFolder.Parent as Folder;
+const StoreFolder = ParentFolder.Parent as Folder;
+const Classes = StoreFolder.Parent as Folder;
 const Components = Classes.Parent as Folder;
 const Configs = Components.WaitForChild("configs") as Folder;
 const Products = Configs.WaitForChild("products") as Folder;
@@ -34,6 +36,6 @@ export class ProductManager {
 	};
 
 	executeChild = (id: number, secondPlayer?: Player): void => {
-		this.ProductList[id].Execute(this.getPlayer(), secondPlayer);
+		if (this.ProductList[id]) this.ProductList[id].Execute(this.getPlayer(), secondPlayer);
 	};
 }
