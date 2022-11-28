@@ -1,20 +1,40 @@
 # What is this?
-This is a Roblox TypeScript Game Skeleton to be used with roblox-ts and Rojo.
+This is a Roblox TypeScript Game Skeleton, made with [Flamework](https://github.com/rbxts-flamework/), [Roblox-TS](https://roblox-ts.com/) and [Rojo](https://rojo.space/).
 
 ## Prerequistes
 - Visual Studio Code
 - Roblox Studio
 - NodeJS
 
+# Overview
+- [Installation](#installation)
+	- [Setup Workspace](#setup-workspace)
+	- [Roblox Studio Setup](#roblox-studio-setup)
+	- [Visual Studio Code Setup](#visual-studio-code-setup)
+	- [Connecting VSC and Roblox Studio](#connecting-vsc-and-roblox-studio)
+- [File Structure](#file-structure)
+	- [ReplicatedFirst](#replicatedfirst)
+	- [ReplicatedStorage](#replicatedstorage)
+	- [ServerScriptService](#serverscriptservice)
+	- [ServerStorage](#serverstorage)
+	- [StarterPlayerScripts](#starterplayerscripts)
+
 # Installation
+This project requires you to setup multiple things according to work properly.
+
+## Setup Workspace
+1. Clone the repository: `git clone https://github.com/Crabzzai/BaseGame`
+2. Go into your new workspace folder: `cd BaseGame`
+3. Install the NodeJS requirements: `npm install`
+
 ## Roblox Studio Setup
 1. Open a Roblox Studio project.
 2. Select the 'Plugins' tab.
 3. Press 'Manage Plugins'
 4. Press the blue '+' button, it will open the Marketplace in the plugins tab.
 5. Search for 'rojo'.
-6. Install Rojo 7
-7. Go back to the Manage Plugins window
+6. Install Rojo 7.
+7. Go back to the Manage Plugins window.
 8. Make sure Rojo is enabled, and press the small edit button below the description.
 9. Make sure to enable the option labelled 'Script Injection'.
 10. Close those windows, your done!
@@ -37,3 +57,109 @@ This is a Roblox TypeScript Game Skeleton to be used with roblox-ts and Rojo.
 3. Click the button labelled 'Rojo' with a red R, a window should appear on the left.
 4. Press connect.
 5. Your done!
+
+# File Structure
+├── src/\
+│	├── [ReplicatedFirst](#replicatedfirst)\
+│	├── [ReplicatedStorage](#replicatedstorage)\
+│	├── [ServerScriptService](#serverscriptservice)\
+│	├── [ServerStorage](#serverstorage)\
+│	└── [StarterPlayerScripts](#starterplayerscripts)
+
+## ReplicatedFirst
+A container whose contents are replicated to all clients (but not back to the server) first before anything else. - [Read more](https://create.roblox.com/docs/reference/engine/classes/ReplicatedFirst).
+
+## ReplicatedStorage
+ReplicatedStorage is a general container service for objects that are available to both the server and connected game clients. - [Read more](https://create.roblox.com/docs/reference/engine/classes/ReplicatedStorage).
+
+├── [components](https://fireboltofdeath.dev/docs/flamework/additional-modules/components/creating-a-component)/\
+├── modules/\
+│	├── [Signal](#signal)\
+│	├── [Spring](#spring)\
+│	├── [StrokeScale](#strokescale)\
+│	└── [Utils](#utils)
+
+### Signal
+Alternative bindable event system
+```ts
+interface Signal {
+	Connect(): {
+		Disconnect(): void;
+	};
+	DisconnectAll(): void;
+	Fire(...args: unknown[]): void;
+	Wait(sm: LuaTuple<never>): LuaTuple<never>;
+}
+```
+
+### Spring
+A physical model of a spring, useful in many applications. Properties only evaluate upon index making this model good for lazy applications
+```ts
+interface Spring<T extends Vector3 | number> {
+	Damper: number;
+	Speed: number;
+
+	Target: T;
+
+	readonly Position: T;
+	readonly Velocity: T;
+}
+```
+
+### StrokeScale
+A module that handles UI stroke scaling (with some extra steps)
+```ts
+interface StrokeScale {
+	ScaleGuiObject(
+		UIStroke: UIStroke,
+		Pixels?: number,
+		RelativeSize?: number,
+	): {
+		Disconnect(): void;
+	};
+	ScaleBillboardGui(
+		BillboardGui: BillboardGui,
+		RelativeSize: number,
+	): {
+		Disconnect(): void;
+		ChangeRelativeSize(RelativeSize: number): void;
+		ChangeStrokeSize(UIStroke: UIStroke, Size: number): void;
+	};
+}
+```
+
+### Utils
+
+## ServerScriptService
+ServerScriptService is a container service for Script, ModuleScript and other scripting-related assets that are only meant for server use. - [Read more](https://create.roblox.com/docs/reference/engine/classes/ServerScriptService).
+
+├── [services](https://fireboltofdeath.dev/docs/flamework/guides/creating-a-singleton#basic-service)/\
+├── network.ts\
+└── runtime.server.ts
+
+## ServerStorage
+A container whose contents are only accessible on the server. Objects descending from ServerStorage will not replicate to the client and will not be accessible from LocalScripts. - [Read more](https://create.roblox.com/docs/reference/engine/classes/ServerStorage).
+
+├── classes/\
+├── [components](https://fireboltofdeath.dev/docs/flamework/additional-modules/components/creating-a-component)/\
+├── configs/\
+├── modules/\
+│	└── [DataManager](#datamanager)\
+└── types/
+
+### DataManager
+```ts
+DataManager.set(player: Player, profile: Profile<IProfile, unknown>): void;
+
+DataManager.get(player: Player): Promise<_Player>;
+
+DataManager.delete(player: Player): void;
+```
+
+## StarterPlayerScripts
+The StarterPlayerScripts is a container object located within the StarterPlayer service. It contains LocalScripts and other objects to be copied to the PlayerScripts container once when a Player joins the game. - [Read more](https://create.roblox.com/docs/reference/engine/classes/StarterPlayerScripts).
+
+├── [components](https://fireboltofdeath.dev/docs/flamework/additional-modules/components/creating-a-component)/\
+├── [controllers](https://fireboltofdeath.dev/docs/flamework/guides/creating-a-singleton#basic-controller)/\
+├── network.ts\
+└── runtime.server.ts
