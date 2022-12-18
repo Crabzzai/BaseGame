@@ -34,12 +34,20 @@ export class SpeakerService implements OnStart {
 		ChatService.eSpeakerAdded.Event.Connect(this.speakerAdded);
 
 		task.spawn(() => {
+			print("TASK SPAWNED");
 			const bool = true;
 			while (bool) {
-				AnnounceConfig.Messages.forEach((msg) => {
+				for (let i = 0; i < AnnounceConfig.Messages.size(); i++) {
+					print("THIS WERE HANDLED");
 					wait(AnnounceConfig.SecondsBetween);
-					if (this.AnnouncementSpeaker) this.AnnouncementSpeaker.SayMessage(msg);
-				});
+					const msg = AnnounceConfig.Messages[i];
+					if (this.AnnouncementSpeaker) {
+						print("SPEAKER IS HERE");
+						this.AnnouncementSpeaker.SayMessage(msg, "all");
+					} else {
+						print("SPEAKER IS NOT HERE");
+					}
+				}
 			}
 		});
 		print("SpeakerService started");
@@ -67,13 +75,13 @@ export class SpeakerService implements OnStart {
 	};
 
 	sendAnnouncement = (text: string): void => {
-		if (this.AnnouncementSpeaker) this.AnnouncementSpeaker.SayMessage(text);
+		if (this.AnnouncementSpeaker) this.AnnouncementSpeaker.SayMessage(text, "all");
 	};
 
 	broadcastListener = (message: { Data: unknown; Sent: number }): void => {
 		const Data = message.Data as { JobSender: string; Text: string };
 		if (Data.JobSender === game.JobId) return;
-		if (this.BroadcastSpeaker) this.BroadcastSpeaker.SayMessage(Data.Text);
+		if (this.BroadcastSpeaker) this.BroadcastSpeaker.SayMessage(Data.Text, "all");
 	};
 
 	sendBroadcast = (text: string): void => {

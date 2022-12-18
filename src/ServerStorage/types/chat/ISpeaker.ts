@@ -12,5 +12,5 @@ export interface ISpeaker {
 	SetExtraData(key: "Font", font: Enum.Font): void;
 	SetExtraData(key: "TextSize", size: number): void;
 	JoinChannel(channel: string): void;
-	SayMessage(message: string): void;
+	SayMessage(message: string, channel: string): void;
 }

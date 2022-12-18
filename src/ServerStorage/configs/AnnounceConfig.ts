@@ -1,4 +1,4 @@
 export const AnnounceConfig = {
-	SecondsBetween: 60,
+	SecondsBetween: 30,
 	Messages: ["This is a test announcement.", "This is another test announcement."],
 };
